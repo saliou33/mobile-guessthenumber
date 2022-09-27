@@ -1,12 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { HeaderBackButton } from '@react-navigation/elements';
+import Home from './screens/Home';
+import Game from './screens/Game';
+import Result from './screens/Result';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <NavigationContainer>
       <StatusBar style="auto" />
-    </View>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Game" component={Game} />
+        <Stack.Screen
+          name="Result"
+          component={Result}
+          options={({ navigation }) => ({
+            headerLeft: (props) => {
+              <HeaderBackButton {...props} label="Home" onPress={() => navigation.navigate('Home')} />;
+            },
+          })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
